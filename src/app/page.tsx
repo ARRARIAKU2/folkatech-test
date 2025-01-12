@@ -45,12 +45,10 @@ function Home() {
     try {
       const response: AxiosResponse = await axios.get(
         `https://techtest.folkatech.com/api/product?keyword=${
-          search === "" ? "" : search
-        }&price=${min === "" ? "" : min},${max === "" ? "" : max}&page=${
-          page === 1 ? "" : page
-        }&limit=${dataCount === 10 ? 10 : dataCount}&order=${
-          selected === "product_name" ? "product_name" : selected
-        },ASC`,
+          search ? search : ""
+        }&price=${min ? min : ""},${
+          max ? max : ""
+        }&page=${page}&limit=${dataCount}&order=${selected},ASC`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
