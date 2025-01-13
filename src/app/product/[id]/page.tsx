@@ -93,7 +93,7 @@ function DetailProduct() {
             Home
           </div>
           <MdKeyboardDoubleArrowRight />
-          <div className="text-[#EB3F36]">{data.product_name}</div>
+          <div className="text-[#EB3F36]">{data.name}</div>
         </div>
       </div>
       <div id="product" className="w-full px-80">
@@ -224,7 +224,7 @@ function DetailProduct() {
         )}
         {description === "information" && <div>infromasi</div>}
       </div>
-      <div id="description" className="w-full px-80 pb-80">
+      <div id="suggest" className="w-full px-80 pb-80">
         <div className="flex justify-center">
           <div
             className={`px-20 py-4 text-2xl font-bold text-[#EB3F36] cursor-pointer border-b-4 border-[#EB3F36]`}

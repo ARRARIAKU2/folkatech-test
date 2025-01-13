@@ -269,7 +269,7 @@ function Home() {
                 data.map((item: any, index: number) => (
                   <div
                     key={index}
-                    className="rounded-lg shadow-lg p-4 flex flex-col items-center gap-2 "
+                    className="rounded-lg shadow-lg p-4 flex flex-col items-center gap-2 cursor-pointer"
                     onClick={(e) => {
                       handleDetail(e, item);
                     }}
