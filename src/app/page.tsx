@@ -11,6 +11,7 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { IoPersonOutline } from "react-icons/io5";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { FaStar } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
 
 import {
   Accordion,
@@ -31,39 +32,37 @@ import {
 
 function Home() {
   const token = localStorage.getItem("token");
-  const { data, handleDetail } = State();
+  const { data, setData, handleDetail } = State();
   const [dataCount, setDataCount] = useState<number>(10);
   const [selected, setSelected] = useState<string>("product_name");
-  const [rowData, setRowData] = useState<any>([]);
 
   const [search, setSearch] = useState<string>("");
   const [min, setMin] = useState<string>("");
   const [max, setMax] = useState<string>("");
   const [page, setPage] = useState<number>(1);
 
-  const getData = async () => {
-    try {
-      const response: AxiosResponse = await axios.get(
-        `https://techtest.folkatech.com/api/product?keyword=${
-          search ? search : ""
-        }&price=${min ? min : ""},${
-          max ? max : ""
-        }&page=${page}&limit=${dataCount}&order=${selected},ASC`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setRowData(response.data.data);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.log(error);
-      }
-    }
-  };
-
   useEffect(() => {
+    const getData = async () => {
+      try {
+        const response: AxiosResponse = await axios.get(
+          `https://techtest.folkatech.com/api/product?keyword=${
+            search ? search : ""
+          }&price=${min ? min : ""}${
+            max ? "," + max : ""
+          }&page=${page}&limit=${dataCount}&order=${selected},ASC`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setData(response.data.data.list);
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          console.log(error);
+        }
+      }
+    };
     getData();
-  }, []);
+  }, [search, min, max, page, dataCount, selected]);
 
   type AccordionData = {
     origin: { city: string }[];
@@ -118,7 +117,12 @@ function Home() {
     { key: "process", label: "Processing", dataKey: "process" },
   ];
 
-  console.log(data);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
+
+  console.log(min, max);
   return (
     <PrivateProvider>
       <div className="w-full space-y-8">
@@ -147,6 +151,11 @@ function Home() {
           <div>
             <IoPersonOutline className="text-xl" />
           </div>
+          {token && (
+            <div onClick={handleLogout} className="cursor-pointer">
+              <FiLogOut className="text-xl text-red-500" />
+            </div>
+          )}
         </nav>
         <div id="tab" className="w-full px-80 bg-[#F5F5F5]">
           <div className="text-xl bg-[#EB3F36] w-fit text-white px-8 py-4">
